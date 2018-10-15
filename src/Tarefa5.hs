@@ -1,11 +1,11 @@
-{- | 
-   Module      : Main 
+{- |
+   Module      : Main
    Description : Função pela representação gráfica do jogo.
    Copyright   : Diogo José Cruz Sobral
                  João Pedro Rodrigues Gomes
 
    Com esta documentação pretendemos que se torne mais fácil a leitura e o entendimento do nosso código para fazer o jogo "Bomberman".
-   Aqui fica um pequeno resumo da lógica usada para fazer o jogo, e mais à frente abordamos todas as funções uma a uma. 
+   Aqui fica um pequeno resumo da lógica usada para fazer o jogo, e mais à frente abordamos todas as funções uma a uma.
    Esta tarefa é a responsável pela componente gráfica do bot e por isso tem um papel muito importante no jogo sendo que esta componemte é muito importante.
 -}
 
@@ -15,8 +15,8 @@ import Tarefa6_li1g048
 import System.Random
 import BombermanCode
 import Data.Char
-import Graphics.Gloss         
-import Graphics.Gloss.Data.Picture  
+import Graphics.Gloss
+import Graphics.Gloss.Data.Picture
 import Graphics.Gloss.Interface.Pure.Game
 
 {- | Lista de Strings do Mapa.
@@ -111,7 +111,7 @@ transformaT (h:t) lin = tranforma h (0,lin) ++ transformaT t (lin+1)
 -}
 
 tranforma :: String -> (Int,Int) -> [Char1]
-tranforma [] _ = [] 
+tranforma [] _ = []
 tranforma (h:t) (a,b) = (h,a,b) : tranforma t (a+1,b)
 
 {- | A função topicT é a responvável por tranforma o tipo Char1 em (Picture,Int,Int) conforme o char da primeira compunente.
@@ -126,7 +126,7 @@ topicT l car tijol back = map (\l -> charTopic l car tijol back) l
 charTopic :: (Char1) -> Picture -> Picture -> Picture -> (Picture,Int,Int)
 charTopic (a,b,c) car t ba | a == '#' = (car,b,c)
                            | a == ' ' = (ba,b,c)
-                           | otherwise = (t,b,c)  
+                           | otherwise = (t,b,c)
 
 {- | A função todaPic é a responvável por colocar as figuras na sua devida posição conforme as suas coordenadas
 -}
@@ -207,8 +207,8 @@ drawPlayer [] _ _ _ _ _ _ _ _ _ = []
 drawPlayer (h:t) p1 p2 p3 p4 p1b p2b p3b p4b bombs = let (a,b) = coordPLayer h
                                                          u = head h
                                                          op = elem (coordPLayer h) (map (coordPLayer) bombs)
-                                                     in if op == True 
-                                                      then drawSingle u (a,b) p1b p2b p3b p4b : drawPlayer t p1 p2 p3 p4 p1b p2b p3b p4b bombs 
+                                                     in if op == True
+                                                      then drawSingle u (a,b) p1b p2b p3b p4b : drawPlayer t p1 p2 p3 p4 p1b p2b p3b p4b bombs
                                                       else drawSingle u (a,b) p1 p2 p3 p4 : drawPlayer t p1 p2 p3 p4 p1b p2b p3b p4b bombs
 
 {- | A função drawSingle é a responvável transformar as coordenadas de um jogador no respetivo tipo (Picture,Int,Int).
@@ -228,7 +228,7 @@ scoreboard [] _ _ = []
 scoreboard (h:t) z img = let player = digitToInt (head h)
                              imgn = dono player img
                              alt = fromIntegral(140 - (50 * z))
-                         in  (Translate 275 alt (scale 1.25 1.25 imgn)) : scoreboard t (z+1) img  
+                         in  (Translate 275 alt (scale 1.25 1.25 imgn)) : scoreboard t (z+1) img
 
 {- | A função dono é a responvável identificar qual a imagem a usar no scoreboard.
 -}
@@ -281,7 +281,7 @@ desenhaMenu1 :: Estado -> Picture
 desenhaMenu1 (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed)  | menu1status && menu1auxstatus = pictures ([menu1] ++ [(Translate 0 (-100) menu1aux)])
                                                                                                                                                                                                                                                                             | menu1status = menu1
                                                                                                                                                                                                                                                                             | menu3status = pictures ([menu3] ++ [desenhaTempo2 (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed)] )
-                                                                                                                                                                                                                                                                            | menu2status = pictures ([menu2] ++ [desenhaTempo (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed)] )  
+                                                                                                                                                                                                                                                                            | menu2status = pictures ([menu2] ++ [desenhaTempo (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed)] )
                                                                                                                                                                                                                                                                             | otherwise = desenhaEstado (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed)
 
 {- | A função desenhaEstado é a função mais importante desta tarefa e é a responsável por dar vida à parte grafica do jogo.
@@ -325,10 +325,10 @@ desenhaEstado (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,(
                                                                                                                                                                                                                                                                                                                                                                                                       drawWRestart = Translate 300 265 menugame
                                                                                                                                                                                                                                                                                                                                                                                                       drawTimef = Translate 300 200  (color color1 (retangolo ((fromIntegral size) * tpic)))
                                                                                                                                                                                                                                                                                                                                                                                                       drawScoreboard = pictures (scoreboard d 0 str)
-                                                                                                                                                                                                                                                                                                                                                                                                  in if length d > 1 
-                                                                                                                                                                                                                                                                                                                                                                                                   then pictures([mapafigurado]++[bombasfiguradas]++[bombfigurada]++[firefigurada]++[playerdraw]++[drawTimef]++[drawTime]++[drawScoreboard]) 
-                                                                                                                                                                                                                                                                                                                                                                                                   else if mod timermenu 5 == 0 
-                                                                                                                                                                                                                                                                                                                                                                                                     then pictures([mapafigurado]++[bombasfiguradas]++[bombfigurada]++[firefigurada]++[playerdraw]++[drawTimef]++[drawTimeRestart]++[drawScoreboard]) 
+                                                                                                                                                                                                                                                                                                                                                                                                  in if length d > 1
+                                                                                                                                                                                                                                                                                                                                                                                                   then pictures([mapafigurado]++[bombasfiguradas]++[bombfigurada]++[firefigurada]++[playerdraw]++[drawTimef]++[drawTime]++[drawScoreboard])
+                                                                                                                                                                                                                                                                                                                                                                                                   else if mod timermenu 5 == 0
+                                                                                                                                                                                                                                                                                                                                                                                                     then pictures([mapafigurado]++[bombasfiguradas]++[bombfigurada]++[firefigurada]++[playerdraw]++[drawTimef]++[drawTimeRestart]++[drawScoreboard])
                                                                                                                                                                                                                                                                                                                                                                                                      else pictures([mapafigurado]++[bombasfiguradas]++[bombfigurada]++[firefigurada]++[playerdraw]++[drawTimef]++[drawTimeRestart]++[drawWRestart]++[drawScoreboard])
 
 {- | A função newImagem é a responvável alterar a representação do jogador conforme o comando utilizado.
@@ -356,7 +356,7 @@ newfram (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,
 
 {- | A função reageMenu2 é a responsável por fazer com que o menu2 funcione.
 -}
-                                                                                                                                          
+
 reageMenu2 :: Event -> Estado -> Estado
 reageMenu2 (EventKey (Char '0') Down _ _ ) s = alterDim 0 s
 reageMenu2 (EventKey (Char '1') Down _ _ ) s = alterDim 1 s
@@ -368,8 +368,8 @@ reageMenu2 (EventKey (Char '6') Down _ _ ) s = alterDim 6 s
 reageMenu2 (EventKey (Char '7') Down _ _ ) s = alterDim 7 s
 reageMenu2 (EventKey (Char '8') Down _ _ ) s = alterDim 8 s
 reageMenu2 (EventKey (Char '9') Down _ _ ) s = alterDim 9 s
-reageMenu2 (EventKey (SpecialKey KeyEnter) Down _ _ ) (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) = if not (even dim) && dim >= 5 
-  then (gera2 ++ strj,dim,3*(dim-2)^2,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(False,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,gera2++strj,seed) 
+reageMenu2 (EventKey (SpecialKey KeyEnter) Down _ _ ) (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) = if not (even dim) && dim >= 5
+  then (gera2 ++ strj,dim,3*(dim-2)^2,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(False,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,gera2++strj,seed)
   else (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(True,menu2),0,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) where gera2 = mapa dim seed
                                                                                                                                                                                                                                                                   strj = stringjogadores nj 0 dim
 reageMenu2 _ s = s
@@ -387,7 +387,7 @@ alterDim x (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flam
 -}
 
 movePre :: Estado -> Char -> Int -> Estado
-movePre (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nnj,(menu3status,menu3),menugame,str,mapa2,seed) k nj = let nmapa = move gera nj k 
+movePre (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nnj,(menu3status,menu3),menugame,str,mapa2,seed) k nj = let nmapa = move gera nj k
                                                                                                                                                                                                                                                                               in newfram (nmapa,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nnj,(menu3status,menu3),menugame,str,mapa2,seed) k nj
 
 {- | A função reageMenu é a função que decide como o jogo deve responder quando o utilizador pressiona um tecla conforme o seu estado atual.
@@ -430,8 +430,8 @@ reageEvento _ s = s
 -}
 playBot :: [String] -> Int -> Maybe Char -> [String]
 playBot mapa z Nothing  = mapa
-playBot mapa z (Just x)  = if (filter (\y -> head y == intToDigit z ) mapa) == [] 
-  then mapa 
+playBot mapa z (Just x)  = if (filter (\y -> head y == intToDigit z ) mapa) == []
+  then mapa
   else move mapa z x
 
 
@@ -443,10 +443,10 @@ reageTempo f (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,fl
                                                                                                                                                                                                                                                                                  (a,b,c,d) = splitMap nmapa
                                                                                                                                                                                                                                                                                  f1 = 1 + segp
                                                                                                                                                                                                                                                                                  stop = f1 - 1
-                                                                                                                                                                                                                                                                             in if (time-segp) == 0 || length d <= 1 && timermenu == 50 
-                                                                                                                                                                                                                                                                               then ([],0,0,0,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,[],[],(True,menu1),(True,menu1aux),0,(True,menu2),0,numeros,0,(True,menu3),menugame,str,[],seed) 
-                                                                                                                                                                                                                                                                               else if (time-segp) == 0 || length d <= 1 
-                                                                                                                                                                                                                                                                                 then (nmapa2,size,time,stop,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom2,b4,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu+1,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,gera,seed) 
+                                                                                                                                                                                                                                                                             in if (time-segp) == 0 || length d <= 1 && timermenu == 50
+                                                                                                                                                                                                                                                                               then ([],0,0,0,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,[],[],(True,menu1),(True,menu1aux),0,(True,menu2),0,numeros,0,(True,menu3),menugame,str,[],seed)
+                                                                                                                                                                                                                                                                               else if (time-segp) == 0 || length d <= 1
+                                                                                                                                                                                                                                                                                 then (nmapa2,size,time,stop,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom2,b4,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu+1,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,gera,seed)
                                                                                                                                                                                                                                                                                  else  (nmapa2,size,time,f1,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom2,b4,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,a4,seed)
 
 
@@ -458,8 +458,8 @@ reageMenu3 (EventKey (Char '1') Down _ _ ) s = alteraNum 1 s
 reageMenu3 (EventKey (Char '2') Down _ _ ) s = alteraNum 2 s
 reageMenu3 (EventKey (Char '3') Down _ _ ) s = alteraNum 3 s
 reageMenu3 (EventKey (Char '4') Down _ _ ) s = alteraNum 4 s
-reageMenu3 (EventKey (SpecialKey KeyEnter) Down _ _ ) (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) = if nj >=1 && nj <= 4 
-  then (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(False,menu3),menugame,str,mapa2,seed) 
+reageMenu3 (EventKey (SpecialKey KeyEnter) Down _ _ ) (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) = if nj >=1 && nj <= 4
+  then (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(False,menu3),menugame,str,mapa2,seed)
   else (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,0,(True,menu3),menugame,str,mapa2,seed)
 reageMenu3 _ s = s
 
@@ -482,8 +482,8 @@ reageTempo2 f (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,f
 -}
 
 reageTMenu1 :: Estado -> Estado
-reageTMenu1 (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) = if mod timermenu 4 == 0 
-  then (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(False,menu1aux),timermenu + 1,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) 
+reageTMenu1 (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(menu1auxstatus,menu1aux),timermenu,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed) = if mod timermenu 4 == 0
+  then (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(False,menu1aux),timermenu + 1,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed)
   else (gera,size,time,segp,car,bomb,tijol,back,pbomb,pfire,p1,p2,p3,p4,flames,player1,player2,player3,player4,exbom,expower,(menu1status,menu1),(True,menu1aux),timermenu + 1,(menu2status,menu2),dim,numeros,nj,(menu3status,menu3),menugame,str,mapa2,seed)
 
 {- | fr indica a FrameRate que vai ser utilizada.
@@ -497,62 +497,62 @@ fr = 5
 
 dm :: Display
 dm = InWindow "BomberMan by Group 48" (800, 600) (0, 0)
-    
+
 {- | A função main é a responsável por juntar todas as pequenas peças de modo a tornar o jogo jogável.
 -}
 main :: IO ()
-main = do car <- (loadBMP "cardinal.bmp")
-          bomb <- (loadBMP "bomb45.bmp")
-          tijol <- (loadBMP "rand45.bmp")
-          back <- (loadBMP "back45pix.bmp")
-          pbomb <- (loadBMP "newpowerbomb.bmp")
-          pfire <- (loadBMP "newpowerfire.bmp")
-          n1 <- (loadBMP "player45pix.bmp")
-          n1b <- (loadBMP "player1bomb45.bmp")
-          n2 <- (loadBMP "player2back.bmp")
-          n3 <- (loadBMP "player3back.bmp")
-          n4 <- (loadBMP "player5back.bmp")
-          u1 <- (loadBMP "up.bmp")
-          l1 <- (loadBMP "lateralback.bmp")
-          l2 <- (loadBMP "lateral2back.bmp")
-          d1 <- (loadBMP "down.bmp")
-          r1 <- (loadBMP "rigth.bmp")
-          e1 <- (loadBMP "left.bmp")
-          c1 <- (loadBMP "explosionback.bmp")
-          n1l <- (loadBMP "lframep1.bmp")
-          n1r <- (loadBMP "rframep1.bmp")
-          n1u <- (loadBMP "uframep1.bmp")
-          n2b <- (loadBMP "player2bomb.bmp")
-          n2l <- (loadBMP "lframep2.bmp")
-          n2r <- (loadBMP "rframep2.bmp")
-          n2u <- (loadBMP "uframep2.bmp")
-          n3b <- (loadBMP "player3bomb.bmp")
-          n3l <- (loadBMP "lframep3.bmp")
-          n3r <- (loadBMP "rframep3.bmp")
-          n3u <- (loadBMP "uframep3.bmp")
-          n4b <- (loadBMP "player5bomb.bmp")
-          n4l <- (loadBMP "lframep5.bmp")
-          n4r <- (loadBMP "rframep5.bmp")
-          n4u <- (loadBMP "uframep5l.bmp")
-          menu1 <- (loadBMP "menu1.bmp")
-          menu1ax <- (loadBMP "menu1presskey.bmp")
-          menu2 <- (loadBMP "menuCM.bmp")
-          num0 <- (loadBMP "n1.bmp")
-          num1 <- (loadBMP "n2.bmp")
-          num2 <- (loadBMP "n3.bmp")
-          num3 <- (loadBMP "n4.bmp")
-          num4 <- (loadBMP "n5.bmp")
-          num5 <- (loadBMP "n6.bmp")
-          num6 <- (loadBMP "n7.bmp")
-          num7 <- (loadBMP "n8.bmp")
-          num8 <- (loadBMP "n9.bmp")
-          num9 <- (loadBMP "n10.bmp")
-          menu3 <- (loadBMP "menubuilder.bmp")
-          menugame <- (loadBMP "letterRestart.bmp")
-          str1 <- (loadBMP "p1str.bmp")
-          str2 <- (loadBMP "p2str.bmp")
-          str3 <- (loadBMP "p3str.bmp")
-          str4 <- (loadBMP "p4str.bmp")
+main = do car <- (loadBMP "/img/cardinal.bmp")
+          bomb <- (loadBMP "/img/bomb45.bmp")
+          tijol <- (loadBMP "/img/rand45.bmp")
+          back <- (loadBMP "/img/back45pix.bmp")
+          pbomb <- (loadBMP "/img/newpowerbomb.bmp")
+          pfire <- (loadBMP "/img/newpowerfire.bmp")
+          n1 <- (loadBMP "/img/player45pix.bmp")
+          n1b <- (loadBMP "/img/player1bomb45.bmp")
+          n2 <- (loadBMP "/img/player2back.bmp")
+          n3 <- (loadBMP "/img/player3back.bmp")
+          n4 <- (loadBMP "/img/player5back.bmp")
+          u1 <- (loadBMP "/img/up.bmp")
+          l1 <- (loadBMP "/img/lateralback.bmp")
+          l2 <- (loadBMP "/img/lateral2back.bmp")
+          d1 <- (loadBMP "/img/down.bmp")
+          r1 <- (loadBMP "/img/rigth.bmp")
+          e1 <- (loadBMP "/img/left.bmp")
+          c1 <- (loadBMP "/img/explosionback.bmp")
+          n1l <- (loadBMP "/img/lframep1.bmp")
+          n1r <- (loadBMP "/img/rframep1.bmp")
+          n1u <- (loadBMP "/img/uframep1.bmp")
+          n2b <- (loadBMP "/img/player2bomb.bmp")
+          n2l <- (loadBMP "/img/lframep2.bmp")
+          n2r <- (loadBMP "/img/rframep2.bmp")
+          n2u <- (loadBMP "/img/uframep2.bmp")
+          n3b <- (loadBMP "/img/player3bomb.bmp")
+          n3l <- (loadBMP "/img/lframep3.bmp")
+          n3r <- (loadBMP "/img/rframep3.bmp")
+          n3u <- (loadBMP "/img/uframep3.bmp")
+          n4b <- (loadBMP "/img/player5bomb.bmp")
+          n4l <- (loadBMP "/img/lframep5.bmp")
+          n4r <- (loadBMP "/img/rframep5.bmp")
+          n4u <- (loadBMP "/img/uframep5l.bmp")
+          menu1 <- (loadBMP "/img/menu1.bmp")
+          menu1ax <- (loadBMP "/img/menu1presskey.bmp")
+          menu2 <- (loadBMP "/img/menuCM.bmp")
+          num0 <- (loadBMP "/img/n1.bmp")
+          num1 <- (loadBMP "/img/n2.bmp")
+          num2 <- (loadBMP "/img/n3.bmp")
+          num3 <- (loadBMP "/img/n4.bmp")
+          num4 <- (loadBMP "/img/n5.bmp")
+          num5 <- (loadBMP "/img/n6.bmp")
+          num6 <- (loadBMP "/img/n7.bmp")
+          num7 <- (loadBMP "/img/n8.bmp")
+          num8 <- (loadBMP "/img/n9.bmp")
+          num9 <- (loadBMP "/img/n10.bmp")
+          menu3 <- (loadBMP "/img/menubuilder.bmp")
+          menugame <- (loadBMP "/img/letterRestart.bmp")
+          str1 <- (loadBMP "/img/p1str.bmp")
+          str2 <- (loadBMP "/img/p2str.bmp")
+          str3 <- (loadBMP "/img/p3str.bmp")
+          str4 <- (loadBMP "/img/p4str.bmp")
           let rand1 = 0 :: Int
           let rand2 = 1000 :: Int
           seed <- randomRIO (rand1,rand2)
